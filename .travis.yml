@@ -7,3 +7,5 @@ before_script:
   - yarn install
 script:
   - yarn lint
+env:
+  - TRAVIS_BRANCH=dev
