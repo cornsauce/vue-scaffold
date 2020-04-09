@@ -2,9 +2,19 @@ import {Request} from '@/support/axios/interceptor';
 import {MapHeaders, SimpleAuthInterceptor} from '@/support/axios/interceptors/auth';
 import {JWTProvider, JWTSecret, JWTUser} from '@/support/auth/jwt';
 
+export interface JWTInterceptorOptions {
+  provider: JWTProvider;
+  secret: () => JWTSecret;
+  headerName: string;
+}
+
 export class JWTInterceptor extends SimpleAuthInterceptor<JWTProvider, JWTSecret, JWTUser> {
-  constructor(provider: JWTProvider, user: () => JWTSecret, headerName: string) {
-    super(provider, user, mapHeaders(headerName));
+  constructor(options: JWTInterceptorOptions) {
+    super({
+      provider: options.provider,
+      secret: options.secret,
+      mapHeaders: mapHeaders(options.headerName),
+    });
   }
 
   public request(request: Request): Request {

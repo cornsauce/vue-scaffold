@@ -1,1 +1,1 @@
-export {i18n} from './store';
+export {assembleI18n} from './store';

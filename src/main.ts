@@ -1,26 +1,22 @@
-import '@/core/init';
 import Vue from 'vue';
-import {store} from './store';
-import {router} from './router';
-import {i18n} from './support/i18n';
-import {App, useVue} from '@/core/app';
+import {App} from '@/core/app';
 import {config} from '@/app/config';
 import Entry from './Entry.vue';
+import {apply, genConfigurators} from '@/support/autoconf';
 
 Vue.config.productionTip = false;
 
 function runApp() {
-  const app = new App(config);
+  const app = new App({});
 
-  app.configure(useVue(() => {
+  const provideVue = (options: any) => {
     return new Vue({
-      store,
-      router,
-      i18n,
-      app,
+      ...options,
       render: (h) => h(Entry),
     }).$mount('#app');
-  }));
+  };
+
+  apply(app)(...genConfigurators(config)(provideVue));
 
   app.run();
 }

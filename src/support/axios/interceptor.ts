@@ -3,20 +3,19 @@ import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 export type Request = AxiosRequestConfig;
 export type Response = AxiosResponse;
 
-export type UninstallInterceptor = () => void;
-export type UseInterceptor = (instance: AxiosInstance) => UninstallInterceptor;
+export type UseInterceptor = (instance: AxiosInstance) => () => void;
 
-interface InterceptorLifecycle {
-  onInstalled(instance: AxiosInstance): void;
+interface Lifecycle {
+  installed(instance: AxiosInstance): void;
 
-  onUninstall(): void;
+  beforeUninstall(): void;
 }
 
 interface AsInterceptor {
   asInterceptor(): Interceptor;
 }
 
-export abstract class Interceptor implements InterceptorLifecycle {
+export abstract class Interceptor implements Lifecycle {
   public abstract request(request: Request): Request | Promise<Request>;
 
   public abstract respond(response: Response): Response | Promise<Response>;
@@ -29,10 +28,10 @@ export abstract class Interceptor implements InterceptorLifecycle {
     return error;
   }
 
-  public onInstalled(instance: AxiosInstance): void {
+  public installed(instance: AxiosInstance): void {
   }
 
-  public onUninstall(): void {
+  public beforeUninstall(): void {
   }
 }
 
@@ -61,26 +60,26 @@ class RequestInterceptorAdapter extends Interceptor {
     return error;
   }
 
-  public onInstalled(instance: AxiosInstance): void {
-    this.interceptor.onInstalled(instance);
+  public installed(instance: AxiosInstance): void {
+    this.interceptor.installed(instance);
   }
 
-  public onUninstall(): void {
-    this.interceptor.onUninstall();
+  public beforeUninstall(): void {
+    this.interceptor.beforeUninstall();
   }
 }
 
-export abstract class RequestInterceptor implements AsInterceptor, InterceptorLifecycle {
+export abstract class RequestInterceptor implements AsInterceptor, Lifecycle {
   public abstract request(request: Request): Request | Promise<Request>;
 
   public error(error: any): any {
     return error;
   }
 
-  public onInstalled(instance: AxiosInstance): void {
+  public installed(instance: AxiosInstance): void {
   }
 
-  public onUninstall(): void {
+  public beforeUninstall(): void {
   }
 
   public asInterceptor(): Interceptor {
@@ -113,26 +112,26 @@ class ResponseInterceptorAdapter extends Interceptor {
     return this.interceptor.error(error);
   }
 
-  public onInstalled(instance: AxiosInstance): void {
-    this.interceptor.onInstalled(instance);
+  public installed(instance: AxiosInstance): void {
+    this.interceptor.installed(instance);
   }
 
-  public onUninstall(): void {
-    this.interceptor.onUninstall();
+  public beforeUninstall(): void {
+    this.interceptor.beforeUninstall();
   }
 }
 
-export abstract class ResponseInterceptor implements AsInterceptor, InterceptorLifecycle {
+export abstract class ResponseInterceptor implements AsInterceptor, Lifecycle {
   public abstract respond(request: Response): Response | Promise<Response>;
 
   public error(error: any): any {
     return error;
   }
 
-  public onInstalled(instance: AxiosInstance): void {
+  public installed(instance: AxiosInstance): void {
   }
 
-  public onUninstall(): void {
+  public beforeUninstall(): void {
   }
 
   public asInterceptor(): Interceptor {
@@ -150,10 +149,10 @@ export function useInterceptor(interceptor: Interceptor): UseInterceptor {
       (response) => interceptor.respond(response),
       (error) => interceptor.respondError(error),
     );
-    interceptor.onInstalled(instance);
+    interceptor.installed(instance);
 
     return () => {
-      interceptor.onUninstall();
+      interceptor.beforeUninstall();
       instance.interceptors.request.eject(requestInterceptorId);
       instance.interceptors.response.eject(responseInterceptorId);
     };

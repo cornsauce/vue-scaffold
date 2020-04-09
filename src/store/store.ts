@@ -1,17 +1,14 @@
-import Vue from 'vue';
-import Vuex, {StoreOptions} from 'vuex';
-import {i18n} from './i18n';
+import Vuex from 'vuex';
 import {RootState} from './state';
+import {assembleI18n} from '@/store/i18n/store';
 
-Vue.use(Vuex);
-
-const options: StoreOptions<RootState> = {
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {
-    i18n,
-  },
+export const assembleStore = (rootConfig: any, config: any, state: any) => {
+  return new Vuex.Store<RootState>({
+    state: {},
+    mutations: {},
+    actions: {},
+    modules: {
+      i18n: assembleI18n(rootConfig, config, state),
+    },
+  });
 };
-
-export const store = new Vuex.Store(options);

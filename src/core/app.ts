@@ -1,36 +1,72 @@
-import Vue from 'vue';
-import {EventEmitter} from 'events';
-import {INJECTED} from '@/core/support/vue/plugin';
+import '@/core/init';
 
-export type Configurator = (app: App) => void;
+import {EventEmitter} from 'events';
+import {PluginManager} from './plugin/manager';
+import {StaticConfigurator, Configurator, AssemblePhaseConfigurator, BuildPhaseConfigurator} from './configurator';
+
+export interface AppOptions {
+}
 
 export class App {
-  public readonly config: any;
-  public vue?: Vue;
-  private readonly eventEmitter: EventEmitter;
-  private readonly configurators: Configurator[];
+  private static configurators: Set<StaticConfigurator> = new Set();
 
-  constructor(config: any) {
-    this.config = Object.seal(config);
+  public readonly options: AppOptions;
+  public readonly state: any;
+  private readonly eventEmitter: EventEmitter;
+  private readonly pluginManager: PluginManager;
+  private readonly assemblePhaseConfigurators: AssemblePhaseConfigurator[];
+  private readonly buildPhaseConfigurators: BuildPhaseConfigurator[];
+
+  constructor(options: AppOptions) {
+    this.options = options;
+    this.state = {};
     this.eventEmitter = new EventEmitter();
-    this.configurators = [];
+    this.pluginManager = new PluginManager({});
+    this.assemblePhaseConfigurators = [];
+    this.buildPhaseConfigurators = [];
+
+    App.configurators.forEach((configure) => {
+      this.configure(configure(options));
+    });
+  }
+
+  public static addConfigurator(configurator: StaticConfigurator): () => void {
+    this.configurators.add(configurator);
+
+    return () => {
+      this.configurators.delete(configurator);
+    };
   }
 
   public getEventEmitter(): EventEmitter {
     return this.eventEmitter;
   }
 
-  public configure(configurator: Configurator): void {
-    this.configurators.push(configurator);
+  public getPluginManager(): PluginManager {
+    return this.pluginManager;
+  }
+
+  public configure(configure: Configurator): void {
+    const assemblePhaseConfigurator = configure(this);
+    this.assemblePhaseConfigurators.push(assemblePhaseConfigurator);
+  }
+
+  public assemble(): void {
+    this.assemblePhaseConfigurators.forEach((configure) => {
+      this.buildPhaseConfigurators.push(configure(this.state));
+    });
+  }
+
+  public build() {
+    this.buildPhaseConfigurators.forEach((configure) => {
+      configure();
+    });
   }
 
   public run() {
-    this.configurators.forEach((configure) => configure(this));
+    this.assemble();
+    this.build();
   }
 }
 
-export function useVue(vue: () => Vue): Configurator {
-  return (app) => {
-    app.vue = vue();
-  };
-}
+

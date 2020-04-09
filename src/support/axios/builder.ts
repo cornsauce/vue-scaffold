@@ -1,5 +1,5 @@
 import Axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
-import {Interceptor, UninstallInterceptor, useInterceptor} from './interceptor';
+import {Interceptor, useInterceptor} from './interceptor';
 
 export type Extension = (builder: Builder) => void;
 export type BuildExtension = (builder: Builder, instance: AxiosInstance) => void;
@@ -44,7 +44,7 @@ export function addHeader(name: string, value: string): Extension {
 
 export function addInterceptor(
   interceptor: Interceptor,
-  acceptUninstaller?: (ejector: UninstallInterceptor) => void,
+  acceptUninstaller?: (uninstall: () => void) => void,
 ): Extension {
   return (builder) => {
     builder.addBuildExtension((_, instance) => {

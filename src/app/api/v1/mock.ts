@@ -1,7 +1,8 @@
 import Mock from 'mockjs';
 import {signIn, signUp} from './path';
+import {Stub} from '../../../support/autoconf/api';
 
-export function mockSignIn() {
+const signInStub: Stub = () => {
   Mock.mock(signIn(), {
     error: null,
     data: {
@@ -11,16 +12,16 @@ export function mockSignIn() {
       },
     },
   });
-}
+};
 
-export function mockSignUp() {
+const signUpStub: Stub = () => {
   Mock.mock(signUp(), {
     error: null,
     data: null,
   });
-}
+};
 
-export const mocks = [
-  mockSignIn,
-  mockSignUp,
+export const stubs = [
+  signInStub,
+  signUpStub,
 ];

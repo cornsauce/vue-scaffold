@@ -22,19 +22,22 @@
   import {SET_LOCALE} from '@/store/i18n/action';
 
   @Component({
+    mounted() {
+      console.log(this);
+    },
     methods: {
       ...mapActions({
         _setLocale: SET_LOCALE,
-      })
-    }
+      }),
+    },
   })
   export default class extends Vue {
-    _setLocale!: (args: { locale: string }) => Promise<void>;
+    public _setLocale!: (args: { locale: string }) => Promise<void>;
 
     public setLocale(locale: string) {
       this._setLocale({locale});
     }
-  };
+  }
 </script>
 
 <style lang="stylus">

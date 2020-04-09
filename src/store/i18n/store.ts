@@ -2,21 +2,21 @@ import {Module} from 'vuex';
 import {RootState} from '@/store/state';
 import {I18nState} from './state';
 import {SET_LOCALE, SetLocaleAction} from './action';
-import {config} from '@/app/config';
-import {loadAndSetLocale} from '@/support/i18n/i18n';
 
-export const i18n: Module<I18nState, RootState> = {
-  namespaced: true,
-  state: {
-    locale: config.i18n.defaultLocale,
-  },
-  actions: {
-    [SET_LOCALE]: {
-      root: true,
-      async handler(context, {locale}: SetLocaleAction) {
-        await loadAndSetLocale(locale);
+export const assembleI18n = (rootConfig: any, config: any, state: any): Module<I18nState, RootState> => {
+  return {
+    namespaced: true,
+    state: {
+      locale: rootConfig.i18n.defaultLocale,
+    },
+    actions: {
+      [SET_LOCALE]: {
+        root: true,
+        async handler(context, {locale}: SetLocaleAction) {
+          await state.loadAndSetLocale(locale);
+        },
       },
     },
-  },
-  mutations: {},
+    mutations: {},
+  };
 };
