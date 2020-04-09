@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+  build:
+    working_dir: ~/code
+    docker:
+      - circleci/node:10.19.0
+    steps:
+      - checkout
+      - run
+          name: Install yarn
+          command: 'curl -o- -L https://yarnpkg.com/install.sh | bash'
+      - run
+          name: Install dependencies
+          command: 'yarn install'
+      - run
+          name: Lint
+          command: 'yarn lint'

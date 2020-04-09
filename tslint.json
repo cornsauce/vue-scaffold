@@ -46,6 +46,14 @@
           "private-instance-method"
         ]
       }
-    }
+    },
+    "no-empty": {
+      "options": [
+        "allow-empty-functions"
+      ]
+    },
+    "no-empty-interface": [
+      false
+    ]
   }
 }
