@@ -1,24 +1,42 @@
-# blockchain
+# vue-scaffold
 
-## Project setup
-```
-yarn install
-```
+An engineering scaffold for Vue
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Include these libraries
+- `vuex`
+- `vue-router`
+- `vue-i18n`
+- `axios`
 
-### Compiles and minifies for production
-```
-yarn build
-```
+More library supports are coming...
 
-### Lints and fixes files
-```
-yarn lint
-```
+## Directory structure
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+-
+|- app/                 # All user's settings should be placed into here
+  |- api/               # API definitions
+  |- lang/              # The language definitions, all language files should be named as [YOUR_CUSTOMIZE_LOCALE].ts
+    |- en-us.ts         # The language for the locale 'en-us'
+    |- zh-cn.ts         # The language for the locale 'zh-cn' 
+    |- ...
+  |- config.ts          # User's configuration for the project
+|- core/                # Core support files. You MUST NOT modify them if you're not clear what do these files do. Error operation will lead the program to crash
+|- support/             # Vendor supoort files. You MUST NOT modify them if you're not clear what do these files do. Error operation will lead the program to crash
+|- store/               # Vuex files
+|- router/              # Vue-Router files
+|- components/          # Vue components
+|- layouts/             # The layouts for the views
+|- views/               # View files
+|- assets/              # Assets (see 'vue-cli create' command)
+|- Entry.vue            # Single page entrypoint view
+|- 
+|- main.ts              # Program entrypoint
+|- *.d.ts               # Typescript declaration files
+``` 
+
+PRs welcome!!! Issues welcome!!! The code implementation is so easy to read, but I have no enough time to rich the 
+documentation and guides. If you would use the scaffold to initialize your Vue project, you need to read and comprehend 
+the source code. Please understand :)
+
+
