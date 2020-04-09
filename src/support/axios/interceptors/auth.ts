@@ -3,21 +3,21 @@ import {Provider, Secret, User} from '@/support/auth';
 
 export type MapHeaders<T extends User> = (secret: T) => Map<string, string>;
 
-export class SimpleAuthInterceptor<ProviderType extends Provider<UserType, SecretType>, UserType extends Secret, SecretType extends User> extends RequestInterceptor {
+export class SimpleAuthInterceptor<ProviderType extends Provider<SecretType, UserType>, SecretType extends Secret, UserType extends User> extends RequestInterceptor {
   private provider: ProviderType;
-  private user: () => UserType;
-  private mapHeaders: MapHeaders<SecretType>;
+  private secret: () => SecretType;
+  private mapHeaders: MapHeaders<UserType>;
 
-  constructor(provider: ProviderType, user: () => UserType, mapHeaders: MapHeaders<SecretType>) {
+  constructor(provider: ProviderType, secret: () => SecretType, mapHeaders: MapHeaders<UserType>) {
     super();
 
     this.provider = provider;
-    this.user = user;
+    this.secret = secret;
     this.mapHeaders = mapHeaders;
   }
 
   public request(request: Request): Request {
-    this.mapHeaders(this.provider.for(this.user()))
+    this.mapHeaders(this.provider.for(this.secret()))
       .forEach((value, headerName) => {
         request.headers[headerName] = value;
       });
