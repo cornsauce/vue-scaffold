@@ -13,7 +13,7 @@ export class JWTInterceptor extends SimpleAuthInterceptor<JWTProvider, JWTSecret
 }
 
 const mapHeaders: (headerName: string) => MapHeaders<JWTUser> = (headerName) => {
-  return (secret) => {
-    return new Map(Object.assign({[headerName]: secret.getToken()}).entries());
+  return (user) => {
+    return new Map(Object.assign({[headerName]: user.getToken()}).entries());
   };
 };
