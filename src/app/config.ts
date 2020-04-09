@@ -3,6 +3,9 @@ import {JWTProvider} from '@/support/auth/jwt/provider';
 import {stubs as mockStubs} from '@/app/api/v1/mock';
 
 export const config = {
+  vue: {
+    productionTip: false,
+  },
   vuex: {
     enabled: true,
   },

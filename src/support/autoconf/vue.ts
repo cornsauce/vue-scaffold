@@ -2,23 +2,27 @@ import Vue from 'vue';
 import {Configurator} from '@/core/configurator';
 
 export function enableVue(rootConfig: any, provide: (options: any) => Vue): Configurator {
-  return (app) => (state) => () => {
-    const options: any = {};
+  return (app) => {
+    Vue.config.productionTip = rootConfig.vue.productionTip || false;
 
-    options.app = app;
+    return (state) => () => {
+      const options: any = {};
 
-    if (rootConfig.router.enabled) {
-      options.router = state.autoconf.router;
-    }
+      options.app = app;
 
-    if (rootConfig.i18n.enabled) {
-      options.i18n = state.autoconf.i18n;
-    }
+      if (rootConfig.router.enabled) {
+        options.router = state.autoconf.router;
+      }
 
-    if (rootConfig.vuex.enabled) {
-      options.store = state.autoconf.store;
-    }
+      if (rootConfig.i18n.enabled) {
+        options.i18n = state.autoconf.i18n;
+      }
 
-    state.vue = state.autoconf.vue = provide(options);
+      if (rootConfig.vuex.enabled) {
+        options.store = state.autoconf.store;
+      }
+
+      state.vue = state.autoconf.vue = provide(options);
+    };
   };
 }

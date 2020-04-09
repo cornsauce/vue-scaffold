@@ -52,8 +52,10 @@ export class App {
   }
 
   public assemble(): void {
+    const state: any = {};
+
     this.assemblePhaseConfigurators.forEach((configure) => {
-      this.buildPhaseConfigurators.push(configure(this.state));
+      this.buildPhaseConfigurators.push(configure(state));
     });
   }
 
