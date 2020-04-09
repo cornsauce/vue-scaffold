@@ -1,7 +1,7 @@
 import {RequestInterceptor, Request} from '../interceptor';
 import {Provider, Secret, User} from '@/support/auth';
 
-export type MapHeaders<T extends User> = (secret: T) => Map<string, string>;
+export type MapHeaders<T extends User> = (user: T) => Map<string, string>;
 
 export class SimpleAuthInterceptor<ProviderType extends Provider<SecretType, UserType>, SecretType extends Secret, UserType extends User> extends RequestInterceptor {
   private provider: ProviderType;
