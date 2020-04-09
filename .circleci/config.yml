@@ -1,6 +1,13 @@
 version: 2.1
+
+orbs:
+  node: circleci/node@2.0.1
+
 jobs:
   build:
+    branches:
+      only:
+        - dev
     working_dir: ~/code
     docker:
       - circleci/node:10.19.0
@@ -15,3 +22,6 @@ jobs:
       - run
           name: Lint
           command: 'yarn lint'
+      - run
+          name: Build
+          command: 'yarn build'
