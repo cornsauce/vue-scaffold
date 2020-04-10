@@ -1,5 +1,5 @@
 import {NullOr} from '@/scaffold/utils/types';
-import {RequestInterceptor, Request} from '../interceptor';
+import {RequestInterceptor, Request, Next} from '../interceptor';
 
 export class HeaderInterceptor extends RequestInterceptor {
   private headers: Map<string, string>;
@@ -30,9 +30,10 @@ export class HeaderInterceptor extends RequestInterceptor {
     this.headers.delete(name);
   }
 
-  public request(request: Request) {
+  public request(request: Request, next: Next<Request>): Promise<Request> {
     request.headers = Object.assign({}, request.headers, this.getAll());
-    return request;
+
+    return next(request);
   }
 }
 

@@ -1,4 +1,4 @@
-import {Request} from '@/scaffold/support/axios/interceptor';
+import {Request, Next} from '@/scaffold/support/axios/interceptor';
 import {MapHeaders, SimpleAuthInterceptor} from '@/scaffold/support/axios/interceptors/auth';
 import {JWTProvider, JWTSecret, JWTUser} from '@/scaffold/auth/jwt';
 
@@ -17,8 +17,8 @@ export class JWTInterceptor extends SimpleAuthInterceptor<JWTProvider, JWTSecret
     });
   }
 
-  public request(request: Request): Request {
-    return super.request(request);
+  public request(request: Request, next: Next<Request>): Promise<Request> {
+    return super.request(request, next);
   }
 }
 

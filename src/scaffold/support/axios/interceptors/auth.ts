@@ -1,4 +1,4 @@
-import {RequestInterceptor, Request} from '../interceptor';
+import {RequestInterceptor, Request, Next} from '../interceptor';
 import {Provider, Secret, User} from '@/scaffold/auth';
 
 export type MapHeaders<T extends User> = (user: T) => Map<string, string>;
@@ -22,12 +22,12 @@ export class SimpleAuthInterceptor<ProviderType extends Provider<SecretType, Use
     this.mapHeaders = options.mapHeaders;
   }
 
-  public request(request: Request): Request {
+  public request(request: Request, next: Next<Request>): Promise<Request> {
     this.mapHeaders(this.provider.for(this.secret()))
       .forEach((value, headerName) => {
         request.headers[headerName] = value;
       });
 
-    return request;
+    return next(request);
   }
 }

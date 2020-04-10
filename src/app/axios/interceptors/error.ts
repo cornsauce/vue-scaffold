@@ -1,15 +1,19 @@
-import {ResponseInterceptor, Response} from '@/scaffold/support/axios/interceptor';
+import {ResponseInterceptor, Response, Next} from '@/scaffold/support/axios/interceptor';
 
 export class ErrorHandleInterceptor extends ResponseInterceptor {
-  public respond(response: Response): Response | Promise<Response> {
+  constructor() {
+    super();
+  }
+
+  public respond(response: Response, next: Next<Response>): Promise<Response> {
     if (response.status !== 200) {
-      throw new Error('remote server is responded with error status');
+      return Promise.reject('remote server is responded with error status');
     }
 
     if (response.data.error) {
-      throw new Error('remote server is responded with request error');
+      return Promise.reject('remote server is responded with request error');
     }
 
-    return response;
+    return next(response);
   }
 }

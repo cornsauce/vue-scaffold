@@ -4,7 +4,7 @@ import {Stub} from '@/scaffold/core/autoconf/api';
 
 const signInStub: Stub = (baseUrl) => {
   Mock.mock(baseUrl + signIn(), {
-    error: null,
+    error: {},
     data: {
       userInfo: {
         id: Mock.Random.integer(1e6, 1e7 - 1),

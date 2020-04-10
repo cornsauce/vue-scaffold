@@ -1,7 +1,9 @@
-import {EventEmitter} from 'events';
-import {Application} from '@/scaffold/core/application';
 import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
+import {EventEmitter} from 'events';
+import {Application} from '@/scaffold/core/application';
+import {InterceptorManager} from '@/scaffold/support/axios/interceptor';
+
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
@@ -23,5 +25,11 @@ declare module 'vuex' {
     $route: VueRouter;
     $i18n: VueI18n;
     $bus?: EventEmitter;
+  }
+}
+
+declare module 'axios' {
+  interface AxiosInstance {
+    interceptorManager?: InterceptorManager;
   }
 }

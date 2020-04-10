@@ -54,6 +54,9 @@
     },
     "no-empty-interface": [
       false
+    ],
+    "no-shadowed-variable": [
+      false
     ]
   }
 }
