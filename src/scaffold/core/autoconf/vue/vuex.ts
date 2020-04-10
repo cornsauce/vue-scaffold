@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, {Store} from 'vuex';
+import Vuex from 'vuex';
 import {Configurator} from '@/scaffold/core/configurator';
 import {executeOnce} from '@/scaffold/utils/closure';
 

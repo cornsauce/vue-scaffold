@@ -1,7 +1,5 @@
 import {AbstractAPI, Request} from '@/scaffold/api';
 import {Provide} from '@/scaffold/support/inversify';
-import {Injectable} from '@vue-ioc/core';
-import { AxiosResponse } from 'axios';
 
 @Provide()
 export class API extends AbstractAPI {
