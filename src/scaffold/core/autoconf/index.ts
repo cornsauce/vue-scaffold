@@ -1,1 +1,1 @@
-export {apply, genConfigurators} from './autoconf';
+export * from './autoconf';

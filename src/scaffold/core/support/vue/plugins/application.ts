@@ -1,13 +1,13 @@
 import {PluginFunction} from 'vue';
 import {Application} from '@/scaffold/core/application';
 
-export const INJECTED = '.support.vue.plugin.INJECTED';
+export const INJECTED = '.scaffold.support.vue.plugins.application.INJECTED';
 
-interface PluginOptions {
+interface ApplicationPluginOptions {
   app?: Application;
 }
 
-export const Plugin: PluginFunction<PluginOptions> = (ctor) => {
+export const ApplicationPlugin: PluginFunction<ApplicationPluginOptions> = (ctor) => {
   ctor.mixin({
     beforeCreate(): void {
       this.$app = this.$options.app || this.$options.parent?.$app;

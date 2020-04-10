@@ -13,7 +13,9 @@ export function enableRouter(rootConfig: any, assemble: Scaffold.AssembleRouter)
     enableFeature();
 
     return (state) => () => {
-      state.autoconf.vueOptions.router = assemble(app, state, rootConfig)(rootConfig.router);
+      if (rootConfig.router.enabled) {
+        state.autoconf.vueOptions.router = assemble(app, state, rootConfig)(rootConfig.router);
+      }
     };
   };
 }

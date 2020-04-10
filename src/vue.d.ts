@@ -1,17 +1,17 @@
 import Vue, {ComponentOptions} from 'vue';
+import {EventEmitter} from 'events';
 import {Application} from '@/scaffold/core/application';
-import {$vueIocContainer} from '@vue-ioc/core/dist/common/magicFields';
-import {Container} from 'inversify';
-import {IModuleOptions} from '@vue-ioc/core/dist/decorators/Module';
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     app?: Application;
+    bus?: EventEmitter;
   }
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
     $app?: Application;
+    $bus?: EventEmitter;
   }
 }

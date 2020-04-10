@@ -1,9 +1,14 @@
 import '@/scaffold/core/init';
 
 import {EventEmitter} from 'events';
-import {PluginManager} from './plugin/manager';
-import {StaticConfigurator, Configurator, AssemblePhaseConfigurator, BuildPhaseConfigurator} from './configurator';
 import {Container} from 'inversify';
+import {PluginManager} from './plugin/manager';
+import {
+  StaticConfigurator,
+  Configurator,
+  AssemblePhaseConfigurator,
+  BuildPhaseConfigurator,
+} from './configurator';
 
 export interface ApplicationOptions {
 }

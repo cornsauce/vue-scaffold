@@ -2,6 +2,7 @@ import I18n, {LocaleMessageObject} from 'vue-i18n';
 
 export const assembleI18n: Scaffold.AssembleI18n = (app, state, rootConfig) => (config: any) => {
   const instance = new I18n({
+    locale: config.defaultLocale,
     fallbackLocale: config.defaultLocale,
     messages: {
       [config.defaultLocale]: config.defaultLanguage,

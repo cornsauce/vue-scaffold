@@ -12,7 +12,9 @@ export function enableI18n(rootConfig: any, assemble: Scaffold.AssembleI18n): Co
     enableFeature();
 
     return (state) => () => {
-      state.autoconf.vueOptions.i18n = assemble(app, state, rootConfig)(rootConfig.i18n);
+      if (rootConfig.i18n.enabled) {
+        state.autoconf.vueOptions.i18n = assemble(app, state, rootConfig)(rootConfig.i18n);
+      }
     };
   };
 }

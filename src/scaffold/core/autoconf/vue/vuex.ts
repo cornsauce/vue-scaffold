@@ -12,7 +12,9 @@ export function enableVuex<StateType>(rootConfig: any, assemble: Scaffold.Assemb
     enableFeature();
 
     return (state) => () => {
-      state.autoconf.vueOptions.store = assemble(app, state, rootConfig)(rootConfig.vuex);
+      if (rootConfig.vuex.enabled) {
+        state.autoconf.vueOptions.store = assemble(app, state, rootConfig)(rootConfig.vuex);
+      }
     };
   };
 }

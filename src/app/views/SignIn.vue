@@ -10,8 +10,7 @@
   import {API} from '@/app/api/v1/api';
   import {Inject} from '@vue-ioc/core';
   import {signIn} from '@/app/api/v1/path';
-
-
+  
   @Component({})
   export default class extends Vue {
     @Inject()
