@@ -13,15 +13,15 @@ jobs:
     working_dir: ~/repo
     steps:
       - checkout
-      - run
+      - run:
           name: Install yarn
           command: 'curl -o- -L https://yarnpkg.com/install.sh | bash'
-      - run
+      - run:
           name: Install dependencies
           command: 'yarn install'
-      - run
+      - run:
           name: Lint
           command: 'yarn lint'
-      - run
+      - run:
           name: Build
           command: 'yarn build'
