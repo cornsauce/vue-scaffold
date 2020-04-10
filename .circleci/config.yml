@@ -20,5 +20,8 @@ jobs:
           name: Lint
           command: 'yarn lint'
       - run:
-          name: Build
+          name: Typescript build and clean
+          command: 'yarn tsBuildAndClean'
+      - run:
+          name: Build production
           command: 'yarn build'

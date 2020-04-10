@@ -7,6 +7,7 @@ before_script:
   - yarn install
 script:
   - yarn lint
+  - yarn tsBuildAndClean
   - yarn build
 env:
   - TRAVIS_BRANCH=dev
