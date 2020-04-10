@@ -1,12 +1,13 @@
-import Router from 'vue-router';
-import I18n from 'vue-i18n';
+import VueRouter from 'vue-router';
+import VueI18n from 'vue-i18n';
+import {EventEmitter} from 'events';
 import {Application} from '@/scaffold/core/application';
 
 declare module 'vuex' {
-
   interface Store<S> {
     $app: Application;
-    $route: Router;
-    $i18n: I18n;
+    $route: VueRouter;
+    $i18n: VueI18n;
+    $bus?: EventEmitter;
   }
 }

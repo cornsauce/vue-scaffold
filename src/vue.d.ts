@@ -1,4 +1,3 @@
-import Vue, {ComponentOptions} from 'vue';
 import {EventEmitter} from 'events';
 import {Application} from '@/scaffold/core/application';
 
