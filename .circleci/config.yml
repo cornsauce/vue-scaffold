@@ -5,12 +5,12 @@ orbs:
 
 jobs:
   build:
+    docker:
+      - circleci/node:10.19.0
     branches:
       only:
         - dev
-    working_dir: ~/code
-    docker:
-      - circleci/node:10.19.0
+    working_dir: ~/repo
     steps:
       - checkout
       - run
