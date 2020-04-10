@@ -17,32 +17,32 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import Component from 'vue-class-component';
-  import {mapActions} from 'vuex';
-  import {SET_LOCALE} from '@/store/i18n/action';
-  import {Module} from '@vue-ioc/core';
-  import {API} from '@/app/api/v1/api';
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import {mapActions} from 'vuex';
+import {SET_LOCALE} from '@/store/i18n/action';
+import {Module} from '@vue-ioc/core';
+import {API} from '@/app/api/v1/api';
 
-  @Module({
-    providers: [
-      {provide: API, useClass: API, providedIn: 'root'}
-    ]
-  })
-  @Component({
-    methods: {
-      ...mapActions({
-        dispatchSetLocale: SET_LOCALE,
-      }),
-    },
-  })
-  export default class extends Vue {
-    public dispatchSetLocale!: (args: { locale: string }) => Promise<void>;
+@Module({
+  providers: [
+    {provide: API, useClass: API, providedIn: 'root'},
+  ],
+})
+@Component({
+  methods: {
+    ...mapActions({
+      dispatchSetLocale: SET_LOCALE,
+    }),
+  },
+})
+export default class extends Vue {
+  public dispatchSetLocale!: (args: { locale: string }) => Promise<void>;
 
-    public setLocale(locale: string) {
-      this.dispatchSetLocale({locale});
-    }
+  public setLocale(locale: string) {
+    this.dispatchSetLocale({locale});
   }
+}
 </script>
 
 <style lang="stylus">

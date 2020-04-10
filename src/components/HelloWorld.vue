@@ -38,17 +38,17 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import Component from 'vue-class-component';
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-  @Component({
-    props: {
-      msg: String,
-    }
-  })
-  export default class HelloWorld extends Vue {
-    private msg!: string;
-  }
+@Component({
+  props: {
+    msg: String,
+  },
+})
+export default class HelloWorld extends Vue {
+  private msg!: string;
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
