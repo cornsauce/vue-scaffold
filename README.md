@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![TravisCI Status](https://travis-ci.com/cornsauce/vue-scaffold.svg?branch=dev)](https://travis-ci.com/cornsauce/vue-scaffold)
-[![CircleCI Status](https://circleci.com/gh/cornsauce/vue-scaffold/tree/dev.svg?style=svg)]()
+[![CircleCI Status](https://circleci.com/gh/cornsauce/vue-scaffold/tree/dev.svg?style=svg)](https://circleci.com/gh/cornsauce/vue-scaffold)
 
 An engineering scaffold for Vue
 
