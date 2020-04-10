@@ -19,7 +19,7 @@
 
     public mounted() {
       this.api.signIn('admin', '123456')(signIn).then((res) => {
-        alert(res.data.toString());
+        alert(JSON.stringify(res.data));
       });
     }
   }
