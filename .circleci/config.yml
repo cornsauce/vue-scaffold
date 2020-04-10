@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - circleci/node:10.19.0
+      - image: circleci/node:10.19.0
     working_directory: ~/repo
     steps:
       - checkout
