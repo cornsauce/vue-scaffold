@@ -40,7 +40,6 @@ More library supports are coming...
 ``` 
 
 PRs welcome!!! Issues welcome!!! The code implementation is so easy to read, but I have no enough time to rich the 
-documentation and guides. If you would use the scaffold to initialize your Vue project, you need to read and comprehend 
+documentations and guides. If you would use the scaffold to initialize your Vue project, you need to read and comprehend 
 the source code. Please understand :)
-
 
