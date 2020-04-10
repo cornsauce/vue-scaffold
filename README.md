@@ -11,6 +11,7 @@ Include these libraries
 - `vue-router`
 - `vue-i18n`
 - `axios`
+- `vue-ioc`
 
 More library supports are coming...
 
