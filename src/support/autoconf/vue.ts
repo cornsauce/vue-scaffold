@@ -11,15 +11,15 @@ export function enableVue(rootConfig: any, provide: (options: any) => Vue): Conf
       options.app = app;
 
       if (rootConfig.router.enabled) {
-        options.router = state.autoconf.router;
+        options.router = state.autoconf.vueOptions.router;
       }
 
       if (rootConfig.i18n.enabled) {
-        options.i18n = state.autoconf.i18n;
+        options.i18n = state.autoconf.vueOptions.i18n;
       }
 
       if (rootConfig.vuex.enabled) {
-        options.store = state.autoconf.store;
+        options.store = state.autoconf.vueOptions.store;
       }
 
       state.vue = state.autoconf.vue = provide(options);

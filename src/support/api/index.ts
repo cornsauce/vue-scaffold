@@ -1,1 +1,1 @@
-export {AbstractAPI} from './api';
+export {AbstractAPI, Request} from './api';

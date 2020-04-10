@@ -1,20 +1,24 @@
-import {AxiosRequestConfig} from 'axios';
+import {AxiosRequestConfig, AxiosInstance} from 'axios';
 import {Builder, Extension, overrideRequestConfig} from './builder';
 
 export class AxiosFactory {
-  public create(defaultRequestConfig?: AxiosRequestConfig) {
+  public create(defaultRequestConfig?: AxiosRequestConfig): AxiosInstance {
     const builder = new Builder();
 
     builder.addExtension(overrideRequestConfig(defaultRequestConfig ?? {}));
 
-    return builder;
+    return builder.build();
   }
 
-  public createWithExtensions(extensions: Extension[]) {
+  public createWithBuilder(configureBuilder: (builder: Builder) => Builder): AxiosInstance {
+    return configureBuilder(new Builder()).build();
+  }
+
+  public createWithExtensions(extensions: Extension[]): AxiosInstance {
     const builder = new Builder();
 
     extensions.forEach((extension) => builder.addExtension(extension));
 
-    return builder;
+    return builder.build();
   }
 }

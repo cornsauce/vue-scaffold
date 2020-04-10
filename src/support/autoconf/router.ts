@@ -12,7 +12,7 @@ export function enableRouter(rootConfig: any, assemble: (config: any) => VueRout
     enableFeature();
 
     return (state) => () => {
-      state.autoconf.router = assemble(rootConfig.router);
+      state.autoconf.vueOptions.router = assemble(rootConfig.router);
     };
   };
 }

@@ -3,29 +3,32 @@ import '@/core/init';
 import {EventEmitter} from 'events';
 import {PluginManager} from './plugin/manager';
 import {StaticConfigurator, Configurator, AssemblePhaseConfigurator, BuildPhaseConfigurator} from './configurator';
+import {Container} from 'inversify';
 
-export interface AppOptions {
+export interface ApplicationOptions {
 }
 
-export class App {
+export class Application {
   private static configurators: Set<StaticConfigurator> = new Set();
 
-  public readonly options: AppOptions;
+  public readonly options: ApplicationOptions;
   public readonly state: any;
   private readonly eventEmitter: EventEmitter;
   private readonly pluginManager: PluginManager;
+  private readonly container: Container;
   private readonly assemblePhaseConfigurators: AssemblePhaseConfigurator[];
   private readonly buildPhaseConfigurators: BuildPhaseConfigurator[];
 
-  constructor(options: AppOptions) {
+  constructor(options: ApplicationOptions) {
     this.options = options;
     this.state = {};
     this.eventEmitter = new EventEmitter();
     this.pluginManager = new PluginManager({});
+    this.container = new Container({autoBindInjectable: false});
     this.assemblePhaseConfigurators = [];
     this.buildPhaseConfigurators = [];
 
-    App.configurators.forEach((configure) => {
+    Application.configurators.forEach((configure) => {
       this.configure(configure(options));
     });
   }
@@ -44,6 +47,10 @@ export class App {
 
   public getPluginManager(): PluginManager {
     return this.pluginManager;
+  }
+
+  public getContainer(): Container {
+    return this.container;
   }
 
   public configure(configure: Configurator): void {

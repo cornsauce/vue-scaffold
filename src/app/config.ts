@@ -22,7 +22,7 @@ export const config = {
     defaultLanguage,
   },
   api: {
-    host: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3000',
     headers: {},
     mock: {
       enabled: true,

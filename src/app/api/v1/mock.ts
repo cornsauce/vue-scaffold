@@ -1,9 +1,9 @@
 import Mock from 'mockjs';
 import {signIn, signUp} from './path';
-import {Stub} from '../../../support/autoconf/api';
+import {Stub} from '@/support/autoconf/api';
 
-const signInStub: Stub = () => {
-  Mock.mock(signIn(), {
+const signInStub: Stub = (baseUrl) => {
+  Mock.mock(baseUrl + signIn(), {
     error: null,
     data: {
       userInfo: {
@@ -14,8 +14,8 @@ const signInStub: Stub = () => {
   });
 };
 
-const signUpStub: Stub = () => {
-  Mock.mock(signUp(), {
+const signUpStub: Stub = (baseUrl) => {
+  Mock.mock(baseUrl + signUp(), {
     error: null,
     data: null,
   });

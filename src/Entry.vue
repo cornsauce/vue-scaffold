@@ -17,10 +17,18 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator';
+  import Vue from 'vue';
+  import Component from 'vue-class-component';
   import {mapActions} from 'vuex';
   import {SET_LOCALE} from '@/store/i18n/action';
+  import {Module} from '@vue-ioc/core';
+  import {API} from '@/app/api/v1/api';
 
+  @Module({
+    providers: [
+      {provide: API, useClass: API, providedIn: 'root'}
+    ]
+  })
   @Component({
     methods: {
       ...mapActions({

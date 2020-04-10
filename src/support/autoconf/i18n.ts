@@ -14,7 +14,7 @@ export function enableI18n(rootConfig: any, assemble: (config: any) => any): Con
     return (state) => () => {
       const i18n = assemble(rootConfig.i18n);
 
-      state.autoconf.i18n = i18n.i18n;
+      state.autoconf.vueOptions.i18n = i18n.i18n;
       state.loadAndSetLocale = i18n.loadAndSetLocale;
     };
   };

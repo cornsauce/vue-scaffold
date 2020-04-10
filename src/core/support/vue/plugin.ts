@@ -1,10 +1,10 @@
 import {PluginFunction} from 'vue';
-import {App} from '@/core/app';
+import {Application} from '@/core/application';
 
 export const INJECTED = '.support.vue.plugin.INJECTED';
 
 interface PluginOptions {
-  app?: App;
+  app?: Application;
 }
 
 export const Plugin: PluginFunction<PluginOptions> = (ctor) => {

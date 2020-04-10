@@ -12,7 +12,7 @@ export function enableVuex<S>(rootConfig: any, assemble: (rootConfig: any, confi
     enableFeature();
 
     return (state) => () => {
-      state.autoconf.store = assemble(rootConfig, rootConfig.vuex, state);
+      state.autoconf.vueOptions.store = assemble(rootConfig, rootConfig.vuex, state);
     };
   };
 }
