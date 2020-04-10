@@ -1,5 +1,5 @@
 import defaultLanguage from '@/app/lang/zh-cn';
-import {JWTProvider} from '@/support/auth/jwt/provider';
+import {JWTProvider} from '@/scaffold/auth/jwt/provider';
 import {stubs as mockStubs} from '@/app/api/v1/mock';
 
 export const config = {

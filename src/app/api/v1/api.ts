@@ -1,5 +1,5 @@
-import {AbstractAPI, Request} from '@/support/api';
-import {Provide} from '@/support/inversify';
+import {AbstractAPI, Request} from '@/scaffold/api';
+import {Provide} from '@/scaffold/support/inversify';
 import {Injectable} from '@vue-ioc/core';
 import { AxiosResponse } from 'axios';
 

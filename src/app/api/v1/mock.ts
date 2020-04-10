@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 import {signIn, signUp} from './path';
-import {Stub} from '@/support/autoconf/api';
+import {Stub} from '@/scaffold/core/autoconf/api';
 
 const signInStub: Stub = (baseUrl) => {
   Mock.mock(baseUrl + signIn(), {

@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import {Application} from '@/core/application';
+import {Application} from '@/scaffold/core/application';
 import {config} from '@/app/config';
-import Entry from './Entry.vue';
-import {apply, genConfigurators} from '@/support/autoconf';
+import App from '@/app/App.vue';
+import {apply, genConfigurators} from '@/scaffold/core/autoconf';
 
 function runApp() {
   const app = new Application({});
@@ -10,7 +10,7 @@ function runApp() {
   const provideVue = (options: any) => {
     return new Vue({
       ...options,
-      render: (h) => h(Entry),
+      render: (h) => h(App),
     }).$mount('#app');
   };
 
