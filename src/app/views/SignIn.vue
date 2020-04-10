@@ -20,7 +20,7 @@
     public mounted() {
       this.api.signIn('admin', '123456')(signIn).then((res) => {
         alert(JSON.stringify(res.data));
-      });
+      }, (error) => alert('request error: ' + JSON.stringify(error)));
     }
   }
 </script>

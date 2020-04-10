@@ -122,7 +122,7 @@ class ResponseInterceptorAdapter extends Interceptor {
 }
 
 export abstract class ResponseInterceptor implements AsInterceptor, Lifecycle {
-  public abstract respond(request: Response): Response | Promise<Response>;
+  public abstract respond(response: Response): Response | Promise<Response>;
 
   public error(error: any): any {
     return error;

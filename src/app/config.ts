@@ -1,6 +1,7 @@
 import defaultLanguage from '@/app/lang/zh-cn';
 import {JWTProvider} from '@/scaffold/auth/jwt/provider';
 import {stubs as mockStubs} from '@/app/api/v1/mock';
+import {ErrorHandleInterceptor} from '@/app/axios/interceptors';
 
 export const config = {
   vue: {
@@ -20,6 +21,11 @@ export const config = {
     ],
     defaultLocale: 'zh-cn',
     defaultLanguage,
+  },
+  axios: {
+    interceptors: [
+      (new ErrorHandleInterceptor()).asInterceptor(),
+    ],
   },
   api: {
     baseUrl: 'http://localhost:3000',
