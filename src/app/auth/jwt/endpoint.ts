@@ -1,12 +1,12 @@
 import {AbstractJWTEndpoint, JWTSecretInterface, JWTUserInterface, JWTUser} from '@/scaffold/support/auth/jwt';
 import {Bean, Autowire} from '@/scaffold/support/inversify';
-import {Beans} from '@/scaffold/core/beans';
+import {BeanConstant} from '@/scaffold/core/constant';
 import {API} from '@/app/api/v1/api';
 import {permissions} from '@/app/api/v1/path';
 
 @Bean()
 export class JWTEndpoint extends AbstractJWTEndpoint {
-  @Autowire(Beans.API)
+  @Autowire(BeanConstant.API)
   private api!: API;
 
   public async authenticate(secret: JWTSecretInterface): Promise<JWTUserInterface> {

@@ -10,7 +10,7 @@ import Component from 'vue-class-component';
 import {API} from '@/app/api/v1/api';
 import {Inject} from '@vue-ioc/core';
 import {signIn} from '@/app/api/v1/path';
-import {Beans} from '@/scaffold/core/beans';
+import {BeanConstant} from '@/scaffold/core/constant';
 import {AuthManagerInterface} from '@/scaffold/auth';
 import {JWTSecret} from '@/scaffold/support/auth/jwt';
 import {Log} from '@/scaffold/log';
@@ -20,7 +20,7 @@ export default class extends Vue {
   @Inject()
   public api!: API;
 
-  @Inject(Beans.AUTH_MANAGER)
+  @Inject(BeanConstant.AUTH_MANAGER)
   public am!: AuthManagerInterface;
 
   public async mounted() {

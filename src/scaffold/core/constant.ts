@@ -1,4 +1,4 @@
-export class Beans {
+export class BeanConstant {
   public static APP = 'app';
   public static API = 'app.api';
   public static API_AXIOS = 'app.api.axios';

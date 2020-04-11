@@ -1,4 +1,4 @@
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 
 export function configureEnvironment(rootConfig: App.Config): Configurator {
   return () => {

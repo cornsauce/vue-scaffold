@@ -1,8 +1,7 @@
 import {AbstractRequestInterceptor, Request, Next} from '@/scaffold/support/axios/interceptor';
-import {Application} from '@/scaffold/core/application';
 
 interface I18nInterceptorOptions {
-  app: Application;
+  currentLocale: () => string;
 }
 
 export class I18nInterceptor extends AbstractRequestInterceptor {
@@ -15,7 +14,7 @@ export class I18nInterceptor extends AbstractRequestInterceptor {
   }
 
   public request(request: Request, next: Next<Request>): Promise<Request> {
-    request.headers['Accept-Language'] = this.options.app.state.i18n.currentLocale;
+    request.headers['Accept-Language'] = this.options.currentLocale();
     return next(request);
   }
 }

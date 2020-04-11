@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 import {executeOnce} from '@/scaffold/utils/closure';
 
 export function configureVuex<StateType>(rootConfig: App.Config, assemble: Scaffold.AssembleStore<StateType>): Configurator {

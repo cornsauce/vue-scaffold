@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 import {VueIocPlugin} from '@vue-ioc/core';
 import {executeOnce} from '@/scaffold/utils/closure';
 

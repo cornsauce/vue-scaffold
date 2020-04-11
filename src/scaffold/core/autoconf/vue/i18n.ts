@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 import {executeOnce} from '@/scaffold/utils/closure';
 
 export function configureI18n(rootConfig: App.Config, assemble: Scaffold.AssembleI18n): Configurator {

@@ -6,6 +6,7 @@ import {API} from '@/app/api/v1/api';
 import {JWTGuest} from '@/scaffold/support/auth/jwt';
 import {Application} from '@/scaffold/core/application';
 import {I18nInterceptor} from '@/app/axios/interceptors/i18n';
+import {currentLocale} from '@/scaffold/core/selectors';
 
 export const config: (app: Application) => App.Config = (app: Application) => ({
   vue: {
@@ -29,7 +30,7 @@ export const config: (app: Application) => App.Config = (app: Application) => ({
   axios: {
     interceptors: [
       (new ErrorHandleInterceptor()).asInterceptor(),
-      (new I18nInterceptor({app})).asInterceptor(),
+      (new I18nInterceptor({currentLocale: app.select(currentLocale)})).asInterceptor(),
     ],
   },
   api: {

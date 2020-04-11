@@ -3,8 +3,7 @@
 //  1. auto-wiring problem in api and auth endpoint (see [JWTEndpoint])
 
 import Vue from 'vue';
-import {Configurator} from '@/scaffold/core/configurator';
-import {Application} from '@/scaffold/core/application';
+import {Configurator, Application} from '@/scaffold/core/application';
 import {configureEnvironment} from './environment';
 import {configureApplication} from './application';
 import {configureEventBus} from './eventBus';

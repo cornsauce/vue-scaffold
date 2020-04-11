@@ -3,16 +3,18 @@ import '@/scaffold/core/init';
 import {EventEmitter} from 'events';
 import {Container} from 'inversify';
 import {PluginManager} from './plugin/manager';
-import {
-  StaticConfigurator,
-  Configurator,
-  AssemblePhaseConfigurator,
-  BuildPhaseConfigurator,
-} from './configurator';
 
 export const BEAN_REGISTERED = '.scaffold.';
 
+export type Selector<T> = (app: Application) => T;
+export type BuildPhaseConfigurator = () => void;
+export type AssemblePhaseConfigurator = (state: any) => BuildPhaseConfigurator;
+export type ConfigurePhaseConfigurator = (app: Application) => AssemblePhaseConfigurator;
+export type Configurator = ConfigurePhaseConfigurator;
+export type StaticConfigurator = (options: ApplicationOptions) => Configurator;
+
 export interface ApplicationOptions {
+
 }
 
 export class Application {
@@ -67,6 +69,10 @@ export class Application {
   public configure(configure: Configurator): void {
     const assemblePhaseConfigurator = configure(this);
     this.assemblePhaseConfigurators.push(assemblePhaseConfigurator);
+  }
+
+  public select<T>(select: Selector<T>): () => T {
+    return () => select(this);
   }
 
   public assemble(): void {

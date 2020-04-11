@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 import {executeOnce} from '@/scaffold/utils/closure';
 
 export function configureRouter(rootConfig: App.Config, assemble: Scaffold.AssembleRouter): Configurator {

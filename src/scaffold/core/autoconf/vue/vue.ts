@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {Configurator} from '@/scaffold/core/configurator';
+import {Configurator} from '@/scaffold/core/application';
 
 export function configureVue(rootConfig: App.Config, provideVue: (options: any) => Vue): Configurator {
   return (app) => {

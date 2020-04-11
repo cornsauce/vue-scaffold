@@ -1,5 +1,5 @@
-import {Configurator} from '@/scaffold/core/configurator';
-import {Beans} from '@/scaffold/core/beans';
+import {Configurator} from '@/scaffold/core/application';
+import {BeanConstant} from '@/scaffold/core/constant';
 import {JWTManager} from '@/scaffold/support/auth/jwt';
 
 export function configureAuth(rootConfig: App.Config): Configurator {
@@ -12,7 +12,7 @@ export function configureAuth(rootConfig: App.Config): Configurator {
           guest: rootConfig.auth.guest,
         });
 
-        app.registerBean(Beans.AUTH_MANAGER, jwtManager);
+        app.registerBean(BeanConstant.AUTH_MANAGER, jwtManager);
       } else {
         throw new Error(`unsupported auth driver '${rootConfig.auth.driver}'`);
       }
