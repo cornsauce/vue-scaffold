@@ -14,7 +14,7 @@ function runApp() {
     }).$mount('#app');
   };
 
-  apply(app)(...genConfigurators(config)(provideVue));
+  apply(app)(...genConfigurators(config(app))(provideVue));
 
   app.run();
 }

@@ -11,6 +11,9 @@ export function configureI18n(rootConfig: App.Config, assemble: Scaffold.Assembl
   return (app) => {
     enableFeature();
 
+    app.state.i18n = {};
+    app.state.i18n.currentLocale = rootConfig.i18n.defaultLocale;
+
     return (state) => () => {
       if (rootConfig.i18n.enabled) {
         state.autoconf.vueOptions.i18n = assemble(app, state, rootConfig)(rootConfig.i18n);

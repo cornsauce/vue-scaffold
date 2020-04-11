@@ -1,7 +1,7 @@
 import I18n, {LocaleMessageObject} from 'vue-i18n';
 
 export const assembleI18n: Scaffold.AssembleI18n = (app, state, rootConfig) => (config: any) => {
-  const instance = new I18n({
+  const i18n = new I18n({
     locale: config.defaultLocale,
     fallbackLocale: config.defaultLocale,
     messages: {
@@ -16,25 +16,26 @@ export const assembleI18n: Scaffold.AssembleI18n = (app, state, rootConfig) => (
       throw new Error(`Locale '${locale}' is not available`);
     }
 
-    instance.locale = locale;
+    i18n.locale = locale;
+    app.state.i18n.currentLocale = locale;
   };
 
   const loadLocale = async (locale: string): Promise<LocaleMessageObject> => {
-    if (locale === instance.locale) {
-      return instance.getLocaleMessage(locale);
+    if (locale === i18n.locale) {
+      return i18n.getLocaleMessage(locale);
     }
 
     return (await import(/* webpackChunkName: "lang-[request]" */ `@/app/lang/${locale}`)).default;
   };
 
   const loadAndSetLocale = async (locale: string): Promise<void> => {
-    if (locale === instance.locale) {
+    if (locale === i18n.locale) {
       return Promise.resolve();
     }
 
     if (!loadedLocales.includes(locale)) {
       const language = await loadLocale(locale);
-      instance.setLocaleMessage(locale, language);
+      i18n.setLocaleMessage(locale, language);
       loadedLocales.push(locale);
     }
 
@@ -43,5 +44,5 @@ export const assembleI18n: Scaffold.AssembleI18n = (app, state, rootConfig) => (
 
   state.loadAndSetLocale = loadAndSetLocale;
 
-  return instance;
+  return i18n;
 };

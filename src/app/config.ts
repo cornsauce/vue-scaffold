@@ -4,8 +4,10 @@ import {stubs as mockStubs} from '@/app/api/v1/mock';
 import {JWTEndpoint} from '@/app/auth/jwt/endpoint';
 import {API} from '@/app/api/v1/api';
 import {JWTGuest} from '@/scaffold/support/auth/jwt';
+import {Application} from '@/scaffold/core/application';
+import {I18nInterceptor} from '@/app/axios/interceptors/i18n';
 
-export const config: App.Config = {
+export const config: (app: Application) => App.Config = (app: Application) => ({
   vue: {
     productionTip: false,
   },
@@ -27,6 +29,7 @@ export const config: App.Config = {
   axios: {
     interceptors: [
       (new ErrorHandleInterceptor()).asInterceptor(),
+      (new I18nInterceptor({app})).asInterceptor(),
     ],
   },
   api: {
@@ -53,4 +56,4 @@ export const config: App.Config = {
       authorize: () => Promise.resolve(false),
     }),
   },
-};
+});
