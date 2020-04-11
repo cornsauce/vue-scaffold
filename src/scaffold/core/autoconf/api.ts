@@ -2,7 +2,7 @@ import {Configurator} from '@/scaffold/core/configurator';
 
 export type Stub = (baseUrl: string) => void;
 
-export function enableMock(rootConfig: any): Configurator {
+export function configureMock(rootConfig: any): Configurator {
   return () => () => () => {
     const stubs: Stub[] = rootConfig.api.mock.stubs;
 

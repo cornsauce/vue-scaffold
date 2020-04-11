@@ -3,7 +3,7 @@ import {Configurator} from '@/scaffold/core/configurator';
 import {VueIocPlugin} from '@vue-ioc/core';
 import {executeOnce} from '@/scaffold/utils/closure';
 
-export function enableIoc(rootConfig: any): Configurator {
+export function configureIoc(rootConfig: any): Configurator {
   const enableFeature = executeOnce(() => {
     Vue.use(VueIocPlugin);
     Vue.use((ctor) => {

@@ -3,12 +3,12 @@ import {AxiosFactory} from '@/scaffold/support/axios';
 import {Interceptor} from '@/scaffold/support/axios/interceptor';
 import {addInterceptor, overrideRequestConfig} from '@/scaffold/support/axios/builder';
 
-export function enableAxios(rootConfig: any): Configurator {
+export function configureAxios(rootConfig: any): Configurator {
   return () => () => () => {
   };
 }
 
-export function enableAPIAxios(rootConfig: any): Configurator {
+export function configureAPIAxios(rootConfig: any): Configurator {
   return (app) => {
     const axiosFactory = new AxiosFactory();
     const axios = axiosFactory.createWithExtensions([

@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import {Configurator} from '@/scaffold/core/configurator';
 import {executeOnce} from '@/scaffold/utils/closure';
 
-export function enableRouter(rootConfig: any, assemble: Scaffold.AssembleRouter): Configurator {
+export function configureRouter(rootConfig: any, assemble: Scaffold.AssembleRouter): Configurator {
   const enableFeature = executeOnce(() => {
     Vue.use(VueRouter);
   });
