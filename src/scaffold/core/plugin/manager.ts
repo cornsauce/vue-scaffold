@@ -1,14 +1,14 @@
-import {Plugin} from './plugin';
+import {AbstractPlugin} from './plugin';
 
 export interface PluginManagerOptions {
-  beforePluginInstall?: (manager: PluginManager, plugin: Plugin) => void;
-  pluginInstalled?: (manager: PluginManager, plugin: Plugin) => void;
-  beforePluginActivate?: (manager: PluginManager, plugin: Plugin) => void;
-  pluginActivated?: (manager: PluginManager, plugin: Plugin) => void;
-  beforePluginDeactivate?: (manager: PluginManager, plugin: Plugin) => void;
-  pluginDeactivated?: (manager: PluginManager, plugin: Plugin) => void;
-  beforePluginUninstall?: (manager: PluginManager, plugin: Plugin) => void;
-  pluginUninstalled?: (manager: PluginManager, plugin: Plugin) => void;
+  beforePluginInstall?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  pluginInstalled?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  beforePluginActivate?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  pluginActivated?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  beforePluginDeactivate?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  pluginDeactivated?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  beforePluginUninstall?: (manager: PluginManager, plugin: AbstractPlugin) => void;
+  pluginUninstalled?: (manager: PluginManager, plugin: AbstractPlugin) => void;
 }
 
 export interface PluginState {
@@ -17,8 +17,8 @@ export interface PluginState {
 
 export class PluginManager {
   private readonly options: PluginManagerOptions;
-  private readonly plugins: Set<Plugin>;
-  private readonly pluginStates: Map<Plugin, PluginState>;
+  private readonly plugins: Set<AbstractPlugin>;
+  private readonly pluginStates: Map<AbstractPlugin, PluginState>;
 
   constructor(options: PluginManagerOptions) {
     this.options = options;
@@ -26,11 +26,11 @@ export class PluginManager {
     this.pluginStates = new Map();
   }
 
-  public isPluginAdded(plugin: Plugin): boolean {
+  public isPluginAdded(plugin: AbstractPlugin): boolean {
     return this.plugins.has(plugin);
   }
 
-  public addPlugin(plugin: Plugin, activate?: boolean): () => void {
+  public addPlugin(plugin: AbstractPlugin, activate?: boolean): () => void {
     this.throwIfPluginAdded(plugin);
 
     this.installPlugin(plugin);
@@ -43,14 +43,14 @@ export class PluginManager {
     };
   }
 
-  public removePlugin(plugin: Plugin): void {
+  public removePlugin(plugin: AbstractPlugin): void {
     this.throwIfPluginNotAdded(plugin);
 
     this.deactivatePlugin(plugin);
     this.uninstallPlugin(plugin);
   }
 
-  public activatePlugin(plugin: Plugin): void {
+  public activatePlugin(plugin: AbstractPlugin): void {
     this.throwIfPluginNotAdded(plugin);
     this.throwIfPluginActivated(plugin);
 
@@ -61,7 +61,7 @@ export class PluginManager {
     this.notifyPluginActivated(plugin);
   }
 
-  public deactivatePlugin(plugin: Plugin): void {
+  public deactivatePlugin(plugin: AbstractPlugin): void {
     this.throwIfPluginNotAdded(plugin);
     this.throwIfPluginNotActivated(plugin);
 
@@ -72,13 +72,13 @@ export class PluginManager {
     this.notifyPluginDeactivated(plugin);
   }
 
-  private getPluginState(plugin: Plugin): PluginState {
+  private getPluginState(plugin: AbstractPlugin): PluginState {
     this.throwIfPluginNotAdded(plugin);
 
     return this.pluginStates.get(plugin)!;
   }
 
-  private installPlugin(plugin: Plugin): void {
+  private installPlugin(plugin: AbstractPlugin): void {
     this.notifyBeforePluginInstall(plugin);
 
     this.plugins.add(plugin);
@@ -87,7 +87,7 @@ export class PluginManager {
     this.notifyPluginInstalled(plugin);
   }
 
-  private uninstallPlugin(plugin: Plugin): void {
+  private uninstallPlugin(plugin: AbstractPlugin): void {
     this.notifyBeforePluginUninstall(plugin);
 
     this.pluginStates.delete(plugin);
@@ -96,67 +96,67 @@ export class PluginManager {
     this.notifyPluginUninstalled(plugin);
   }
 
-  private throwIfPluginAdded(plugin: Plugin) {
+  private throwIfPluginAdded(plugin: AbstractPlugin) {
     if (!this.isPluginAdded(plugin)) {
       throw new Error(`the plugin '${plugin.getName()}@${plugin.getVersion()}' has been added`);
     }
   }
 
-  private throwIfPluginNotAdded(plugin: Plugin) {
+  private throwIfPluginNotAdded(plugin: AbstractPlugin) {
     if (!this.isPluginAdded(plugin)) {
       throw new Error(`the plugin '${plugin.getName()}@${plugin.getVersion()}' has not yet added`);
     }
   }
 
-  private throwIfPluginActivated(plugin: Plugin) {
+  private throwIfPluginActivated(plugin: AbstractPlugin) {
     if (this.pluginStates.get(plugin)!.activated) {
       throw new Error(`the plugin '${plugin.getName()}@${plugin.getVersion()}' has been activated`);
     }
   }
 
-  private throwIfPluginNotActivated(plugin: Plugin) {
+  private throwIfPluginNotActivated(plugin: AbstractPlugin) {
     if (!this.pluginStates.get(plugin)!.activated) {
       throw new Error(`the plugin '${plugin.getName()}@${plugin.getVersion()}' has not yet activated`);
     }
   }
 
 
-  private notifyBeforePluginInstall(plugin: Plugin): void {
+  private notifyBeforePluginInstall(plugin: AbstractPlugin): void {
     plugin.beforeInstall();
     this.options.beforePluginInstall?.call(null, this, plugin);
   }
 
-  private notifyPluginInstalled(plugin: Plugin): void {
+  private notifyPluginInstalled(plugin: AbstractPlugin): void {
     plugin.installed();
     this.options.pluginInstalled?.call(null, this, plugin);
   }
 
-  private notifyBeforePluginActivate(plugin: Plugin): void {
+  private notifyBeforePluginActivate(plugin: AbstractPlugin): void {
     plugin.beforeActivate();
     this.options.beforePluginActivate?.call(null, this, plugin);
   }
 
-  private notifyPluginActivated(plugin: Plugin): void {
+  private notifyPluginActivated(plugin: AbstractPlugin): void {
     plugin.activated();
     this.options.pluginActivated?.call(null, this, plugin);
   }
 
-  private notifyBeforePluginDeactivate(plugin: Plugin): void {
+  private notifyBeforePluginDeactivate(plugin: AbstractPlugin): void {
     plugin.beforeDeactivate();
     this.options.beforePluginDeactivate?.call(null, this, plugin);
   }
 
-  private notifyPluginDeactivated(plugin: Plugin): void {
+  private notifyPluginDeactivated(plugin: AbstractPlugin): void {
     plugin.deactivated();
     this.options.pluginDeactivated?.call(null, this, plugin);
   }
 
-  private notifyBeforePluginUninstall(plugin: Plugin): void {
+  private notifyBeforePluginUninstall(plugin: AbstractPlugin): void {
     plugin.beforeUninstall();
     this.options.beforePluginUninstall?.call(null, this, plugin);
   }
 
-  private notifyPluginUninstalled(plugin: Plugin): void {
+  private notifyPluginUninstalled(plugin: AbstractPlugin): void {
     plugin.uninstalled();
     this.options.pluginUninstalled?.call(null, this, plugin);
   }

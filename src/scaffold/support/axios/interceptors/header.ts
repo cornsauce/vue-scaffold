@@ -1,7 +1,7 @@
 import {NullOr} from '@/scaffold/utils/types';
-import {RequestInterceptor, Request, Next} from '../interceptor';
+import {AbstractRequestInterceptor, Request, Next} from '../interceptor';
 
-export class HeaderInterceptor extends RequestInterceptor {
+export class HeaderInterceptor extends AbstractRequestInterceptor {
   private headers: Map<string, string>;
 
   constructor() {

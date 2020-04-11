@@ -1,5 +1,5 @@
 import Axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
-import {Interceptor, useInterceptor} from './interceptor';
+import {AbstractInterceptor, useInterceptor} from './interceptor';
 
 export type Extension = (builder: Builder) => void;
 export type BuildExtension = (builder: Builder, instance: AxiosInstance) => void;
@@ -24,11 +24,23 @@ export class Builder {
   }
 
   public build(): AxiosInstance {
+    // before build phase
     this.extensions.forEach((extension) => extension(this));
-    const instance = Axios.create(mergeRequestConfig(this.request));
-    this.buildExtensions.forEach((extension) => extension(this, instance));
 
-    return instance;
+    //
+    // notice: the [overrideRequestConfig] will modify the [request] property.
+    //  To avoid the invalid configuration problem, the 'before build phase' must
+    //  before the instance has instantiated.
+    const axios = Axios.create(mergeRequestConfig(this.request));
+
+    // build phase
+    this.buildExtensions.forEach((extension) => extension(this, axios));
+
+    //
+    // TODO:
+    //  1. add after-build phase hook
+
+    return axios;
   }
 }
 
@@ -43,12 +55,12 @@ export function addHeader(name: string, value: string): Extension {
 }
 
 export function addInterceptor(
-  interceptor: Interceptor,
+  interceptor: AbstractInterceptor,
   acceptUninstaller?: (uninstall: () => void) => void,
 ): Extension {
   return (builder) => {
-    builder.addBuildExtension((_, instance) => {
-      const uninstaller = useInterceptor(interceptor)(instance);
+    builder.addBuildExtension((_, axios) => {
+      const uninstaller = useInterceptor(interceptor)(axios);
 
       if (acceptUninstaller) {
         acceptUninstaller(uninstaller);

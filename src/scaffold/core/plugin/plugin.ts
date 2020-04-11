@@ -1,4 +1,4 @@
-interface Lifecycle<ModuleType extends Plugin> {
+interface Lifecycle<ModuleType extends AbstractPlugin> {
   beforeInstall: (this: ModuleType) => void;
   installed: (this: ModuleType) => void;
   beforeActivate: (this: ModuleType) => void;
@@ -11,7 +11,7 @@ interface Lifecycle<ModuleType extends Plugin> {
   uninstalled: (this: ModuleType) => void;
 }
 
-export abstract class Plugin implements Lifecycle<Plugin> {
+export abstract class AbstractPlugin implements Lifecycle<AbstractPlugin> {
   public abstract getName(): string;
 
   //
@@ -62,7 +62,7 @@ export interface InstantModuleOptions {
   uninstalled?: () => void;
 }
 
-class InstantPlugin extends Plugin implements Lifecycle<InstantPlugin> {
+class InstantPlugin extends AbstractPlugin implements Lifecycle<InstantPlugin> {
   private readonly options: InstantModuleOptions;
 
   constructor(options: InstantModuleOptions) {

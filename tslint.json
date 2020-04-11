@@ -57,6 +57,9 @@
     ],
     "no-shadowed-variable": [
       false
+    ],
+    "no-console": [
+      false
     ]
   }
 }

@@ -1,9 +1,11 @@
 import defaultLanguage from '@/app/lang/zh-cn';
-import {JWTProvider} from '@/scaffold/auth/jwt/provider';
-import {stubs as mockStubs} from '@/app/api/v1/mock';
 import {ErrorHandleInterceptor} from '@/app/axios/interceptors';
+import {stubs as mockStubs} from '@/app/api/v1/mock';
+import {JWTEndpoint} from '@/app/auth/jwt/endpoint';
+import {API} from '@/app/api/v1/api';
+import {JWTGuest} from '@/scaffold/support/auth/jwt';
 
-export const config = {
+export const config: App.Config = {
   vue: {
     productionTip: false,
   },
@@ -28,15 +30,27 @@ export const config = {
     ],
   },
   api: {
+    class: API,
     baseUrl: 'http://localhost:3000',
     headers: {},
+    auth: {
+      enabled: true,
+      headerName: 'Authentication',
+      interceptor: {
+        enabled: true,
+      },
+    },
     mock: {
       enabled: true,
       stubs: mockStubs,
     },
-    auth: {
-      provider: new JWTProvider(),
-      headerName: 'Authentication',
-    },
+  },
+  auth: {
+    enabled: true,
+    driver: 'jwt',
+    endpoint: JWTEndpoint,
+    guest: new JWTGuest({
+      authorize: () => Promise.resolve(false),
+    }),
   },
 };

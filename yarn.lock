@@ -889,6 +889,13 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/inversify-inject-decorators@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/inversify-inject-decorators/-/inversify-inject-decorators-2.0.0.tgz#9a50b9b473a5b8bd51a6457540d12ddbddcdf25e"
+  integrity sha1-mlC5tHOluL1RpkV1QNEt293N8l4=
+  dependencies:
+    inversify-inject-decorators "*"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -4142,6 +4149,11 @@ invariant@^2.2.2, invariant@^2.2.4:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
+
+inversify-inject-decorators@*, inversify-inject-decorators@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inversify-inject-decorators/-/inversify-inject-decorators-3.1.0.tgz#d9941080bad77cec8a65ee29d905e4d5d73e1e95"
+  integrity sha512-/seBlVp5bXrLQS3DpKEmlgeZL6C7Tf/QITd+IMQrbBBGuCbxb7k3hRAWu9XSreNpFzLgSboz3sClLSEmGwHphw==
 
 inversify@^5.0.1:
   version "5.0.1"

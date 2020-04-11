@@ -17,6 +17,7 @@
     "core-js": "^3.6.4",
     "events": "^3.1.0",
     "inversify": "^5.0.1",
+    "inversify-inject-decorators": "^3.1.0",
     "mockjs": "^1.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/events": "^3.0.0",
+    "@types/inversify-inject-decorators": "^2.0.0",
     "@types/mockjs": "^1.0.2",
     "@types/vue-i18n": "^7.0.0",
     "@vue/cli-plugin-babel": "~4.3.0",

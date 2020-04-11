@@ -1,5 +1,5 @@
 import Mock, {MockjsSetupSettings} from 'mockjs';
 
-function enableMock(options: MockjsSetupSettings) {
+export function setupMock(options: MockjsSetupSettings) {
   Mock.setup(options);
 }

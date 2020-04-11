@@ -3,7 +3,7 @@ import {RootState} from '@/app/store/state';
 import {I18nState} from './state';
 import {SET_LOCALE, SetLocaleAction} from './action';
 
-export const assembleI18n = (rootConfig: any, config: any, state: any): Module<I18nState, RootState> => {
+export const assembleI18n = (rootConfig: App.Config, config: any, state: any): Module<I18nState, RootState> => {
   return {
     namespaced: true,
     state: {

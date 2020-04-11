@@ -4,7 +4,7 @@ import {Configurator} from '@/scaffold/core/configurator';
 import {executeOnce} from '@/scaffold/utils/closure';
 import {EventBusPlugin} from '@/scaffold/core/support/vue/plugins';
 
-export function configureEventBus(rootConfig: any): Configurator {
+export function configureEventBus(rootConfig: App.Config): Configurator {
   const enableFeature = executeOnce(() => {
     Vue.use(EventBusPlugin);
   });

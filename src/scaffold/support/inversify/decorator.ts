@@ -1,4 +1,4 @@
-import {inject, injectable} from 'inversify';
+import {injectable, inject} from 'inversify';
 
+export const Bean = injectable;
 export const Autowire = inject;
-export const Provide = injectable;

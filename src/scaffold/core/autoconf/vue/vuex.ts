@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import {Configurator} from '@/scaffold/core/configurator';
 import {executeOnce} from '@/scaffold/utils/closure';
 
-export function configureVuex<StateType>(rootConfig: any, assemble: Scaffold.AssembleStore<StateType>): Configurator {
+export function configureVuex<StateType>(rootConfig: App.Config, assemble: Scaffold.AssembleStore<StateType>): Configurator {
   const enableFeature = executeOnce(() => {
     Vue.use(Vuex);
   });

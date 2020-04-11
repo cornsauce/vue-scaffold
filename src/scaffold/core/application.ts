@@ -10,6 +10,8 @@ import {
   BuildPhaseConfigurator,
 } from './configurator';
 
+export const BEAN_REGISTERED = '.scaffold.';
+
 export interface ApplicationOptions {
 }
 
@@ -33,9 +35,8 @@ export class Application {
     this.assemblePhaseConfigurators = [];
     this.buildPhaseConfigurators = [];
 
-    Application.configurators.forEach((configure) => {
-      this.configure(configure(options));
-    });
+    this.applyStaticConfigurators();
+    this.setupContainerHooks();
   }
 
   public static addConfigurator(configurator: StaticConfigurator): () => void {
@@ -56,6 +57,11 @@ export class Application {
 
   public getContainer(): Container {
     return this.container;
+  }
+
+  public registerBean<T>(bean: string, value: T): void {
+    this.getContainer().bind<T>(bean).toConstantValue(value);
+    this.getEventEmitter().emit(BEAN_REGISTERED, {bean, value});
   }
 
   public configure(configure: Configurator): void {
@@ -80,6 +86,15 @@ export class Application {
   public run() {
     this.assemble();
     this.build();
+  }
+
+  private applyStaticConfigurators(): void {
+    Application.configurators.forEach((configure) => {
+      this.configure(configure(this.options));
+    });
+  }
+
+  private setupContainerHooks(): void {
   }
 }
 

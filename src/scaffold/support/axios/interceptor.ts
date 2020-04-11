@@ -3,9 +3,9 @@ import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 export type Request = AxiosRequestConfig;
 export type Response = AxiosResponse;
 
-type Pack<T> = (next: Next<T>, interceptor: Interceptor) => Next<T>;
+type Pack<T> = (next: Next<T>, interceptor: AbstractInterceptor) => Next<T>;
 export type Next<T> = (value: T) => Promise<T>;
-export type ApplyInterceptor = (instance: AxiosInstance) => () => void;
+export type ApplyInterceptor = (axios: AxiosInstance) => () => void;
 
 interface Lifecycle {
   installed(axios: AxiosInstance): void;
@@ -14,10 +14,10 @@ interface Lifecycle {
 }
 
 interface AsInterceptor {
-  asInterceptor(): Interceptor;
+  asInterceptor(): AbstractInterceptor;
 }
 
-export abstract class Interceptor implements Lifecycle {
+export abstract class AbstractInterceptor implements Lifecycle {
   public abstract request(request: Request, next: Next<Request>): Promise<Request>;
 
   public requestError(error: any, next: Next<any>): Promise<any> {
@@ -37,10 +37,10 @@ export abstract class Interceptor implements Lifecycle {
   }
 }
 
-class RequestInterceptorAdapter extends Interceptor {
-  private interceptor: RequestInterceptor;
+class RequestInterceptorAdapter extends AbstractInterceptor {
+  private interceptor: AbstractRequestInterceptor;
 
-  constructor(interceptor: RequestInterceptor) {
+  constructor(interceptor: AbstractRequestInterceptor) {
     super();
 
     this.interceptor = interceptor;
@@ -71,7 +71,7 @@ class RequestInterceptorAdapter extends Interceptor {
   }
 }
 
-export abstract class RequestInterceptor implements AsInterceptor, Lifecycle {
+export abstract class AbstractRequestInterceptor implements AsInterceptor, Lifecycle {
   public abstract request(request: Request, next: Next<Request>): Promise<Request>;
 
   public error(error: any, next: Next<any>): Promise<any> {
@@ -84,15 +84,15 @@ export abstract class RequestInterceptor implements AsInterceptor, Lifecycle {
   public beforeUninstall(axios: AxiosInstance): void {
   }
 
-  public asInterceptor(): Interceptor {
+  public asInterceptor(): AbstractInterceptor {
     return new RequestInterceptorAdapter(this);
   }
 }
 
-class ResponseInterceptorAdapter extends Interceptor {
-  private interceptor: ResponseInterceptor;
+class ResponseInterceptorAdapter extends AbstractInterceptor {
+  private interceptor: AbstractResponseInterceptor;
 
-  constructor(interceptor: ResponseInterceptor) {
+  constructor(interceptor: AbstractResponseInterceptor) {
     super();
 
     this.interceptor = interceptor;
@@ -123,7 +123,7 @@ class ResponseInterceptorAdapter extends Interceptor {
   }
 }
 
-export abstract class ResponseInterceptor implements AsInterceptor, Lifecycle {
+export abstract class AbstractResponseInterceptor implements AsInterceptor, Lifecycle {
   public abstract respond(response: Response, next: Next<Response>): Promise<Response>;
 
   public error(error: any, next: Next<any>): Promise<any> {
@@ -136,14 +136,14 @@ export abstract class ResponseInterceptor implements AsInterceptor, Lifecycle {
   public beforeUninstall(axios: AxiosInstance): void {
   }
 
-  public asInterceptor(): Interceptor {
+  public asInterceptor(): AbstractInterceptor {
     return new ResponseInterceptorAdapter(this);
   }
 }
 
 export class InterceptorManager {
   private readonly axios: AxiosInstance;
-  private readonly interceptors: Set<Interceptor>;
+  private readonly interceptors: Set<AbstractInterceptor>;
 
   constructor(axios: AxiosInstance) {
     this.axios = axios;
@@ -159,7 +159,7 @@ export class InterceptorManager {
     );
   }
 
-  public install(interceptor: Interceptor): () => void {
+  public install(interceptor: AbstractInterceptor): () => void {
     this.interceptors.add(interceptor);
     interceptor.installed(this.axios);
 
@@ -170,27 +170,27 @@ export class InterceptorManager {
   }
 
   private onRequest(request: Request): Promise<Request> {
-    const fn = (interceptor: Interceptor, request: Request, next: Next<Request>) => interceptor.request(request, next);
+    const fn = (interceptor: AbstractInterceptor, request: Request, next: Next<Request>) => interceptor.request(request, next);
     return next<Request>(Array.from(this.interceptors), pack(fn))(request);
   }
 
   private onRequestError(error: any): Promise<any> {
-    const fn = (interceptor: Interceptor, error: Response, next: Next<any>) => interceptor.respondError(error, next);
+    const fn = (interceptor: AbstractInterceptor, error: Response, next: Next<any>) => interceptor.respondError(error, next);
     return next<any>(Array.from(this.interceptors), pack(fn))(error);
   }
 
   private onResponse(response: Response): Promise<Response> {
-    const fn = (interceptor: Interceptor, response: Response, next: Next<Response>) => interceptor.respond(response, next);
+    const fn = (interceptor: AbstractInterceptor, response: Response, next: Next<Response>) => interceptor.respond(response, next);
     return next<Response>(Array.from(this.interceptors), pack(fn))(response);
   }
 
   private async onResponseError(error: any): Promise<any> {
-    const fn = (interceptor: Interceptor, error: Response, next: Next<any>) => interceptor.respondError(error, next);
+    const fn = (interceptor: AbstractInterceptor, error: Response, next: Next<any>) => interceptor.respondError(error, next);
     return next<any>(Array.from(this.interceptors), pack(fn))(error);
   }
 }
 
-export function useInterceptor(interceptor: Interceptor): ApplyInterceptor {
+export function useInterceptor(interceptor: AbstractInterceptor): ApplyInterceptor {
   return (axios) => {
     if (!axios.interceptorManager) {
       axios.interceptorManager = new InterceptorManager(axios);
@@ -201,20 +201,20 @@ export function useInterceptor(interceptor: Interceptor): ApplyInterceptor {
   };
 }
 
-export function useRequestInterceptor(interceptor: RequestInterceptor): ApplyInterceptor {
+export function useRequestInterceptor(interceptor: AbstractRequestInterceptor): ApplyInterceptor {
   return useInterceptor(interceptor.asInterceptor());
 }
 
-export function useResponseInterceptor(interceptor: ResponseInterceptor): ApplyInterceptor {
+export function useResponseInterceptor(interceptor: AbstractResponseInterceptor): ApplyInterceptor {
   return useInterceptor(interceptor.asInterceptor());
 }
 
-const pack = <T>(fn: (interceptor: Interceptor, value: T, next: Next<T>) => ReturnType<Next<T>>): Pack<T> => {
+const pack = <T>(fn: (interceptor: AbstractInterceptor, value: T, next: Next<T>) => ReturnType<Next<T>>): Pack<T> => {
   return (next, interceptor) => {
     return (value) => Promise.resolve(fn(interceptor, value, next));
   };
 };
 
-const next = <T>(interceptors: Interceptor[], pack: Pack<T>) => {
+const next = <T>(interceptors: AbstractInterceptor[], pack: Pack<T>) => {
   return interceptors.reverse().reduce<Next<T>>(pack, (value: T) => Promise.resolve(value));
 };

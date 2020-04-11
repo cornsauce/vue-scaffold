@@ -1,10 +1,11 @@
 import {AxiosInstance, AxiosResponse} from 'axios';
-import {Autowire, Provide} from '@/scaffold/support/inversify';
+import {Autowire, Bean} from '@/scaffold/support/inversify';
+import {Beans} from '@/scaffold/core/beans';
 
 export type Request<T> = (path: () => string) => Promise<AxiosResponse<T>>;
 
-@Provide()
+@Bean()
 export class AbstractAPI {
-  @Autowire('api.axios')
-  protected client!: AxiosInstance;
+  @Autowire(Beans.API_AXIOS)
+  protected $http!: AxiosInstance;
 }

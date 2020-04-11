@@ -1,13 +1,21 @@
 import {AbstractAPI, Request} from '@/scaffold/api';
-import {Provide} from '@/scaffold/support/inversify';
+import {Bean} from '@/scaffold/support/inversify';
 
-@Provide()
+@Bean()
 export class API extends AbstractAPI {
   public signIn(username: string, password: string): Request<any> {
-    return (path) => this.client.get(path());
+    return (path) => this.$http.get(path());
   }
 
   public signUp(username: string, password: string): Request<any> {
-    return (path) => this.client.post(path());
+    return (path) => this.$http.post(path());
+  }
+
+  public permissions(): Request<any> {
+    return (path) => this.$http.get(path());
+  }
+
+  public authorize(permission: string): Request<any> {
+    return (path) => this.$http.get(path() + '?perm=' + permission);
   }
 }

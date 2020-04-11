@@ -6,12 +6,16 @@
 
 An engineering scaffold for Vue
 
-Include these libraries
+Include these packages
 - `vuex`
 - `vue-router`
 - `vue-i18n`
 - `axios`
 - `vue-ioc`
+
+Include these abilities
+- Simple authorize solution
+- API manage
 
 More library supports are coming...
 

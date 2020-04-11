@@ -1,29 +1,27 @@
-import {RequestInterceptor, Request, Next} from '../interceptor';
-import {Provider, Secret, User} from '@/scaffold/auth';
+import {AbstractRequestInterceptor, Request, Next} from '../interceptor';
+import {AuthManagerInterface, SecretInterface, UserInterface} from '@/scaffold/auth';
 
-export type MapHeaders<T extends User> = (user: T) => Map<string, string>;
+export type MapHeaders<T extends UserInterface> = (user: T) => Map<string, string>;
 
-export interface SimpleAuthInterceptorOptions<ProviderType extends Provider<SecretType, UserType>, SecretType extends Secret, UserType extends User> {
-  provider: ProviderType;
-  secret: () => SecretType;
+export interface SimpleAuthInterceptorOptions<UserType extends UserInterface> {
+  manager: AuthManagerInterface;
+  secret: () => SecretInterface;
   mapHeaders: MapHeaders<UserType>;
 }
 
-export class SimpleAuthInterceptor<ProviderType extends Provider<SecretType, UserType>, SecretType extends Secret, UserType extends User> extends RequestInterceptor {
-  private provider: ProviderType;
-  private secret: () => SecretType;
-  private mapHeaders: MapHeaders<UserType>;
+export class SimpleAuthInterceptor<UserType extends UserInterface> extends AbstractRequestInterceptor {
+  private readonly options: SimpleAuthInterceptorOptions<UserType>;
 
-  constructor(options: SimpleAuthInterceptorOptions<ProviderType, SecretType, UserType>) {
+  constructor(options: SimpleAuthInterceptorOptions<UserType>) {
     super();
 
-    this.provider = options.provider;
-    this.secret = options.secret;
-    this.mapHeaders = options.mapHeaders;
+    this.options = options;
   }
 
-  public request(request: Request, next: Next<Request>): Promise<Request> {
-    this.mapHeaders(this.provider.for(this.secret()))
+  public async request(request: Request, next: Next<Request>): Promise<Request> {
+    const user = await this.options.manager.resolve(this.options.secret()) as UserType;
+
+    this.options.mapHeaders(user)
       .forEach((value, headerName) => {
         request.headers[headerName] = value;
       });
